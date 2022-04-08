@@ -36,6 +36,38 @@ export default class Movies extends Component {
     //   }
 
   }
+
+  sortByStock=(e)=>{
+      let className=e.target.className;
+      let sortedArr;
+      if(className==="fas fa-sort-up"){
+        sortedArr=this.state.movies.sort((A,B)=>{
+            return A.dailyRentalRate-B.dailyRentalRate;
+        })
+      }
+      else{
+        sortedArr=this.state.movies.sort((A,B)=>{
+            return B.dailyRentalRate-A.dailyRentalRate;
+        })
+      }
+      this.setState({movies:sortedArr});
+  }
+
+  sortByRatings=(e)=>{
+    let className=e.target.className;
+    let sortedArr;
+    if(className==="fas fa-sort-up"){
+      sortedArr=this.state.movies.sort((A,B)=>{
+          return A.numberInStock-B.numberInStock;
+      })
+    }
+    else{
+      sortedArr=this.state.movies.sort((A,B)=>{
+          return B.numberInStock-A.numberInStock;
+      })
+    }
+    this.setState({movies:sortedArr});
+}
   
     render() {
         let {movies,currText}=this.state;
@@ -66,9 +98,17 @@ export default class Movies extends Component {
                                 <th scope="col">#</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Genre</th>
-                                <th scope="col">Stock</th>
-                                <th scope="col">Rate</th>
-                                <th scope="col"></th>
+                                <th scope="col">
+                                <i onClick={this.sortByStock} className="fas fa-sort-up"></i>
+                                Stock
+                                <i onClick={this.sortByStock} className="fa fa-sort-down"></i>
+                                </th>
+                                <th scope="col">
+                                <i onClick={this.sortByRatings} className="fas fa-sort-up"></i>
+                                Rate
+                                <i onClick={this.sortByRatings} className="fa fa-sort-down"></i>
+                                </th>
+                                {/* <th scope="col"></th> */}
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,7 +118,9 @@ export default class Movies extends Component {
                                             <th scope="row"></th>
                                             <td >{movie.title}</td>
                                             <td>{movie.genre.name}</td>
-                                            <td>{movie.dailyRentalRate}</td>
+                                            <td>
+                                            {movie.dailyRentalRate}
+                                            </td>
                                             <td>{movie.numberInStock}</td>
                                             <td> <button onClick={()=>this.handleClick(movie._id)} type="button" className="btn btn-danger">Delete</button> </td>
                                         </tr>
